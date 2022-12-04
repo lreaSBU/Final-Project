@@ -21,7 +21,7 @@ const HomeScreen = () => {
     if (store) {
         console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!RENDERING FOR CURRENTVIEW: " + store.currentView);
         listCard = 
-            <List sx={{ width: '90%', left: '5%', bgcolor: 'background.paper' }}>
+            <List sx={{ width: '50%', left: '0%', right: '50%', bgcolor: 'background.paper' }}>
             {
                 store.idNamePairs.map((pair) => (
                     <ListCard

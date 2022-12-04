@@ -4,7 +4,7 @@ import AuthContext from '../auth';
 import { GlobalStoreContext } from '../store'
 
 import EditToolbar from './EditToolbar'
-//import EditToolbar from './Searchbar'
+import SearchBar from './Searchbar'
 
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import AppBar from '@mui/material/AppBar';
@@ -101,15 +101,17 @@ export default function AppBanner() {
         }
     }
     let addButt = "";
-    if(store.currentView == 1 && !store.currentList){
-        addButt = <Fab 
-        color="primary" 
-        aria-label="add"
-        id="add-list-button"
-        onClick={handleCreateNewList}
-        >
-            <AddIcon />
-        </Fab>
+    if(!store.currentList){
+        if(store.currentView == 1){ //add list button
+            addButt = <Fab 
+                    color="primary" 
+                    aria-label="add"
+                    id="add-list-button"
+                    onClick={handleCreateNewList}
+                    > <AddIcon /> </Fab>
+        }else if(store.currentView){ //search bar
+            addButt = <SearchBar />
+        }
     }
 
     /*let searchBar = ""
