@@ -24,6 +24,9 @@ import {
   
   @author McKilla Gorilla
 */
+
+//<Route path="/playlist/:id" exact component={WorkspaceScreen} />
+
 const App = () => {   
     return (
         <BrowserRouter>
@@ -36,7 +39,7 @@ const App = () => {
                         <Route path="/user/" exact component={UserWrapper} />
                         <Route path="/login/" exact component={LoginScreen} />
                         <Route path="/register/" exact component={RegisterScreen} />
-                        <Route path="/playlist/:id" exact component={WorkspaceScreen} />
+                        
                     </Switch>
                     <Statusbar />
                 </GlobalStoreContextProvider>

@@ -45,8 +45,7 @@ function WorkspaceScreen() {
                     />
                 ))  
             }
-         </List>      
-         { modalJSX }      
+         </List>           
          </Box>
     )
 }
