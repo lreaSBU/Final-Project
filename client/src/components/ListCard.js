@@ -4,8 +4,15 @@ import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
+import List from '@mui/material/List';
+import SongCard from './SongCard.js'
+import LikeIcon from '@mui/icons-material/ThumbUp';
+import DislikeIcon from '@mui/icons-material/ThumbDown';
+import LikeIconOff from '@mui/icons-material/ThumbUpOffAlt';
+import DislikeIconOff from '@mui/icons-material/ThumbDownOffAlt';
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -34,8 +41,22 @@ function ListCard(props) {
         }
     }
 
-    function handleToggleEdit(event) {
-        console.log("SCV::: " + store.checkView());
+    function handleLike(e){
+        store.changeLikes(idNamePair._id, true);
+    }
+    function handleDislike(e){
+        store.changeLikes(idNamePair._id, false); //Need to write in this function!!!
+    }
+    
+    function handleDup(e){
+        console.log("vndjwbvwji");
+    }
+
+    function handlePub(e){
+        console.log("PUBLISH");
+    }
+
+    function handleToggleEdit(event) {    
         event.stopPropagation();
         toggleEdit();
     }
@@ -74,6 +95,39 @@ function ListCard(props) {
     if (store.isListNameEditActive) {
         cardStatus = true;
     }
+    let ldl = '';
+    if(store.currentView > 1){
+        ldl = <div>
+            <Box sx={{ p: 1 }}>
+                <IconButton onClick={handleLike} aria-label='like'>
+                    <Box sx={{ p: 1, flexGrow: 1, color: 'black' }}>{idNamePair.likes}</Box>
+                    <LikeIcon style={{fontSize:'32pt'}} />
+                </IconButton>
+            </Box>
+            <Box sx={{ p: 1 }}>
+                <IconButton onClick={handleDislike} aria-label='dislike'>
+                    <Box sx={{ p: 1, flexGrow: 1, color: 'black' }}>{idNamePair.dislikes}</Box>
+                    <DislikeIcon style={{fontSize:'32pt'}} />
+                </IconButton>
+            </Box>
+        </div>
+    }else{
+        ldl = <div>
+            <Box>
+                <IconButton onClick={handleToggleEdit} aria-label='edit'>
+                    <EditIcon style={{fontSize:'32pt'}} />
+                </IconButton>
+            </Box>
+            <Box>
+                <IconButton onClick={(event) => {handleDeleteList(event, idNamePair._id)}} aria-label='delete'>
+                    <DeleteIcon style={{fontSize:'32pt'}} />
+                </IconButton>
+            </Box>
+            <Box>
+                <Button sx={{bgcolor: '#e6e6e6', fontSize: '16px', textAlign: "center"}} onClick={handlePub}>Publish</Button>
+            </Box>
+        </div>
+    }
     let cardElement =
         <ListItem
             id={idNamePair._id}
@@ -86,18 +140,7 @@ function ListCard(props) {
             }}
         >
             <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
-            <Box sx={{ p: 1 }}>
-                <IconButton onClick={handleToggleEdit} aria-label='edit'>
-                    <EditIcon style={{fontSize:'48pt'}} />
-                </IconButton>
-            </Box>
-            <Box sx={{ p: 1 }}>
-                <IconButton onClick={(event) => {
-                        handleDeleteList(event, idNamePair._id)
-                    }} aria-label='delete'>
-                    <DeleteIcon style={{fontSize:'48pt'}} />
-                </IconButton>
-            </Box>
+            {ldl}
         </ListItem>
 
     if (editActive) {
@@ -119,8 +162,34 @@ function ListCard(props) {
                 autoFocus
             />
     }
+    let cardBod = '';
+    if(store.currentList && store.currentList._id == idNamePair._id){
+        cardBod =
+        <div>
+            <List 
+                id="playlist-cards" 
+                sx={{ width: '100%', bgcolor: '#669966' }}
+            >
+                {
+                    store.currentList.songs.map((song, index) => (
+                        <SongCard
+                            id={'playlist-song-' + (index)}
+                            key={'playlist-song-' + (index)}
+                            index={index}
+                            song={song}
+                        />
+                    ))  
+                }
+            </List>
+            <Box sx={{bgcolor: '#669966', fontSize: '32px', textAlign: "center"}}>⋮</Box>
+            <Button sx={{bgcolor: '#e6e6e6', fontSize: '16px', textAlign: "center"}} onClick={handleDup}>Duplicate</Button>
+        </div>
+    }
     return (
-        cardElement
+        <div>
+            {cardElement}
+            {cardBod}
+        </div>
     );
 }
 

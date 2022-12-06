@@ -143,6 +143,9 @@ export default function AppBanner() {
                         <Link style={{ textDecoration: 'none', color: 'white' }} onClick={handleAll} to="/">👥</Link>
                         <Link style={{ textDecoration: 'none', color: 'white' }} onClick={handleUser} to="/">👤</Link>
                     </Typography>
+                    <Box sx={{ width: '5%' }}></Box>
+                    <Box sx={{ fontSize: '45px' }}>|</Box>
+                    <Box sx={{ width: '5%' }}></Box>
                     {addButt}
                     <Box sx={{ flexGrow: 1 }}>{editToolbar}</Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

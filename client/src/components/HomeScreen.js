@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from 'react'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
+import MUIEditSongModal from './MUIEditSongModal'
+import MUIRemoveSongModal from './MUIRemoveSongModal'
 
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography'
@@ -17,14 +19,23 @@ const HomeScreen = () => {
         store.loadIdNamePairs();
     }, []);
 
+    let modalJSX = "";
+    if (store.isEditSongModalOpen()) {
+        modalJSX = <MUIEditSongModal />;
+    }
+    else if (store.isRemoveSongModalOpen()) {
+        modalJSX = <MUIRemoveSongModal />;
+    }
+
     let listCard = "";
     if (store) {
         console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!RENDERING FOR CURRENTVIEW: " + store.currentView);
         listCard = 
-            <List sx={{ width: '50%', left: '0%', right: '50%', bgcolor: 'background.paper' }}>
+            <List sx={{ width: '100%', left: '0%', bgcolor: 'background.paper' }}>
             {
                 store.idNamePairs.map((pair) => (
                     <ListCard
+                        sx={{bgcolor: ((store.currentList && (pair._id == store.currentList._id)) ? 'red' : 'background.paper')}}
                         key={pair._id}
                         idNamePair={pair}
                         selected={false}
@@ -42,6 +53,7 @@ const HomeScreen = () => {
                     listCard
                 }
                 <MUIDeleteModal />
+                {modalJSX}
             </div>
         </div>)
 }
